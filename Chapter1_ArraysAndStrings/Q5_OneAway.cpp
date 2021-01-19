@@ -1,25 +1,38 @@
 #include<iostream>
-#include<unordered_map>
+#include <cmath>
+#include<string>
 using namespace std;
 
 class solution{
     public:
-        bool oneAway(string s1, string s2){
-            unordered_map<char,int> m1;
-            unordered_map<char,int> m2;
-            int diff = 0;
-
-            for(auto i : s1)
-                m1[i]++;
-            for(auto i : s2)
-                m2[i]++;
-
-            for(auto i : s1)
-                if(m1[i]!=m2[i])
-                    diff++;
-
-            return diff<2?true:false;
+        bool oneAway(string str1, string str2){
+            if(fabs(str1.size() - str2.size()) > 1)
+                return false;
             
+            string s1=str1.size()<str2.size()?str1:str2;
+            string s2=str1.size()<str2.size()?str2:str1;
+            
+            int index1=0,index2=0;
+            bool foundDiff=false;
+            
+            while(index2<s2.size() && index1<s1.size())
+            {
+                if(s1[index1]!=s2[index2])
+                {
+                    if(foundDiff == true)
+                        return false;
+                    
+                    foundDiff = true;
+                    
+                    if(s1.size() == s2.size())
+                        index1++;
+                }
+                else
+                    index1++;
+                
+                index2++;
+            }
+            return true;
         }
         
 };
@@ -55,8 +68,8 @@ int main()
     cout<<"Is One away? Ans: "<<solution().oneAway(s1,s2)<<endl;
 
     cout<<"Case 5:"<<endl;
-    s1 = "palet";
-    s2 = "kate";
+    s1 = "palpet";
+    s2 = "tpalep";
     cout<<"String 1: "<<s1<<endl;
     cout<<"String 2: "<<s2<<endl;
     cout<<"Is One away? Ans: "<<solution().oneAway(s1,s2)<<endl;
